@@ -5,6 +5,11 @@ mermaid.initialize({
   startOnLoad: false,
   securityLevel: 'strict',
   theme: 'default',
+  // Native SVG <text> labels instead of <foreignObject> HTML. foreignObject
+  // boxes get a fixed pixel width measured with the page font at render time;
+  // PNG export re-rasterizes the SVG in an isolated document whose font
+  // fallback can be wider, clipping trailing glyphs. SVG text never clips.
+  flowchart: { htmlLabels: false },
 })
 
 let renderSeq = 0
