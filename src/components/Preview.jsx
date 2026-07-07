@@ -9,6 +9,10 @@ mermaid.initialize({
   // boxes get a fixed pixel width measured with the page font at render time;
   // PNG export re-rasterizes the SVG in an isolated document whose font
   // fallback can be wider, clipping trailing glyphs. SVG text never clips.
+  // NOTE (mermaid 11.16): `flowchart.htmlLabels` alone only converts edge
+  // labels; NODE labels obey the TOP-LEVEL `htmlLabels` flag. Verified
+  // empirically — keep both set.
+  htmlLabels: false,
   flowchart: { htmlLabels: false },
 })
 
