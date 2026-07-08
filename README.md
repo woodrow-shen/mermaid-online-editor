@@ -6,8 +6,14 @@ deploys as a static site to GitHub Pages.
 ## Features
 
 - Live preview with 300ms debounce (CodeMirror 6 editor, Mermaid syntax highlighting)
-- Share diagrams via compressed URL hash (`#pako:` — deflate + base64url, no server needed)
-- Auto-saved draft in `localStorage`
+- Multi-file workspace: tabbed files persisted in `localStorage`, surviving reloads
+  (double-click a tab to rename, `+` to add, `×` to delete)
+- Save to GitHub Gist: each save of the same file becomes a new revision of the
+  same secret gist — git-backed version history with zero backend. Requires a
+  classic personal access token with the `gist` scope (fine-grained tokens do
+  not support the Gist API); the token stays in your browser's localStorage.
+- Share diagrams via compressed URL hash (`#pako:` — deflate + base64url, no
+  server needed); opening a share link imports it as a new tab
 - Export as SVG or PNG (client-side rasterization)
 - Built-in examples: flowchart, sequence, class, state, gantt, pie
 
