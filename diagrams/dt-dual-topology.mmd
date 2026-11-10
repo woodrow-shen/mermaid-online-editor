@@ -1,0 +1,43 @@
+%%{init: {"flowchart": {"wrappingWidth": 400}}}%%
+flowchart TB
+  root["/"]
+  cpus["cpus"]
+  soc["soc<br/>simple-bus"]
+  hartintc["CPU INTC (hart)<br/>riscv,cpu-intc"]
+  aplic["APLIC<br/>interrupt controller"]
+  uart["UART"]
+  eth["Ethernet"]
+  pcie["PCIe host bridge"]
+  ep["PCIe endpoint (INTA)"]
+
+  %% Device hierarchy (address / bus): links 0-7
+  root --- cpus
+  cpus ----- hartintc
+  root --- soc
+  soc --- aplic
+  soc --- uart
+  soc --- eth
+  soc --- pcie
+  pcie --- ep
+
+  %% Interrupt hierarchy (signal routing): links 8-12
+  uart -. interrupt-parent .-> aplic
+  eth -. interrupt-parent .-> aplic
+  ep -. INTx .-> pcie
+  pcie -. interrupt-map .-> aplic
+  aplic -. interrupts-extended .-> hartintc
+
+  %% Legend (sample edges, not device-tree nodes): links 13-14
+  subgraph legend [" "]
+    direction LR
+    lgA[ ] --- lgB["Device hierarchy (address / bus)"]
+    lgC[ ] -.-> lgD["Interrupt hierarchy (signal routing)"]
+  end
+  %% Invisible link to park the legend under the diagram: link 15
+  hartintc ~~~ legend
+
+  linkStyle 0,1,2,3,4,5,6,7,13 stroke:#888,stroke-width:2px
+  linkStyle 8,9,10,11,12,14 stroke:#e67e22,stroke-width:2px,stroke-dasharray:6 4
+  classDef legendItem fill:none,stroke:none
+  class lgA,lgB,lgC,lgD legendItem
+  style legend fill:#fafafa,stroke:#ccc
